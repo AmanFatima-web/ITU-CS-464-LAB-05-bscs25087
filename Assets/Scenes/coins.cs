@@ -6,6 +6,15 @@ public class Coin : MonoBehaviour
     [SerializeField] int value = 1;
     [SerializeField] float spinSpeed = 90f;
 
+    public enum CoinType
+    {
+        Normal,
+        Red,
+        Blue
+    }
+
+    [SerializeField] CoinType coinType = CoinType.Normal;
+
     void Update()
     {
         transform.Rotate(0f, spinSpeed * Time.deltaTime, 0f);
@@ -14,22 +23,27 @@ public class Coin : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
-        {
             return;
-        }
-
-        Debug.Log("Player collected coin!");
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.AddScore(value);
-        }
 
         Spawner spawner = GetComponentInParent<Spawner>();
 
-        if (spawner != null)
+        if (coinType == CoinType.Red)
         {
-            spawner.CoinCollected();
+            if (spawner != null)
+                spawner.RedCoinCollected();
+        }
+        else if (coinType == CoinType.Blue)
+        {
+            if (GameManager.Instance != null)
+                GameManager.Instance.AddBonusCoin();
+        }
+        else
+        {
+            if (GameManager.Instance != null)
+                GameManager.Instance.AddScore(value);
+
+            if (spawner != null)
+                spawner.CoinCollected();
         }
 
         Destroy(gameObject);
