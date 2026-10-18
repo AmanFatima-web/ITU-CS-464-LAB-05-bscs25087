@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text scoreText;
     [SerializeField] TMP_Text bonusCoinsText;
     [SerializeField] GameObject winPanel;
+    [SerializeField] TMP_Text finalScoreText;
+    [SerializeField] TMP_Text finalBonusText;
 
     int score;
     int bonusCoins;
@@ -33,12 +35,22 @@ public class GameManager : MonoBehaviour
         if (winPanel != null)
             winPanel.SetActive(false);
 
+        if (bonusCoinsText != null)
+            bonusCoinsText.gameObject.SetActive(false);
+
         UpdateUI();
     }
 
     public void AddScore(int amount)
     {
+        if (score >= targetScore)
+            return;
+
         score += amount;
+
+        if (score > targetScore)
+            score = targetScore;
+
         UpdateUI();
 
         if (score >= targetScore)
@@ -50,33 +62,47 @@ public class GameManager : MonoBehaviour
         if (bonusCoins >= bonusTarget)
             return;
 
+        if (bonusCoinsText != null)
+            bonusCoinsText.gameObject.SetActive(true);
+
         bonusCoins++;
         UpdateUI();
-
-        if (bonusCoins >= bonusTarget)
-            Win();
     }
 
     void UpdateUI()
     {
         if (scoreText != null)
-            scoreText.text = $"Score: {score} / {targetScore}";
+            scoreText.text = $"Score: {score}/{targetScore}";
 
         if (bonusCoinsText != null)
             bonusCoinsText.text = $"BonusCoins: {bonusCoins}/{bonusTarget}";
     }
 
+
     void Win()
     {
+        if (bonusCoinsText != null)
+            bonusCoinsText.gameObject.SetActive(false);
+
         if (winPanel != null)
+        {
             winPanel.SetActive(true);
+
+            if (finalScoreText != null)
+                finalScoreText.text = $"Score: {score}/{targetScore}";
+
+            if (finalBonusText != null)
+                finalBonusText.text = $"BonusCoins: {bonusCoins}/{bonusTarget}";
+        }
 
         Time.timeScale = 0f;
     }
 
+
     public void Restart()
     {
         Time.timeScale = 1f;
+
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().buildIndex
         );

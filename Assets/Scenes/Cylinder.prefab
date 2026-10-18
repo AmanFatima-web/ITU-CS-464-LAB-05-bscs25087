@@ -30,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 1737007195566163369}
   serializedVersion: 2
   m_LocalRotation: {x: 0.041202545, y: -0.049854673, z: 0.6296492, w: 0.7741827}
-  m_LocalPosition: {x: -0.097, y: 2.735, z: 4.773}
-  m_LocalScale: {x: 2, y: 0.04878511, z: 2.0740097}
+  m_LocalPosition: {x: -0.1263, y: 2.5953, z: 4.4905}
+  m_LocalScale: {x: 1.644, y: 0.1, z: 1.5652981}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -130,6 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Coin
   value: 1
   spinSpeed: 90
+  coinType: 0
 --- !u!54 &1552508775221336354
 Rigidbody:
   m_ObjectHideFlags: 0

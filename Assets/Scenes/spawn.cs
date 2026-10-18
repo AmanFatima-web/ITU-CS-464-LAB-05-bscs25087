@@ -16,13 +16,13 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
-        redCoinTarget = Random.Range(1, 11);
+        redCoinTarget = Random.Range(1, 10);
         SpawnCoin();
     }
 
     public void SpawnCoin()
     {
-        if (currentCoin != null || bonusStarted)
+        if (currentCoin != null)
             return;
 
         if (!redCoinSpawned &&
@@ -68,7 +68,8 @@ public class Spawner : MonoBehaviour
                 continue;
 
             currentCoin = Instantiate(
-                prefab, pos,
+                prefab,
+                pos,
                 Quaternion.Euler(90f, 0f, 0f),
                 transform
             );
@@ -93,6 +94,7 @@ public class Spawner : MonoBehaviour
 
         bonusStarted = true;
         SpawnBlueCoins();
+        SpawnObject(coinPrefab);
     }
 
     void SpawnBlueCoins()
@@ -105,8 +107,8 @@ public class Spawner : MonoBehaviour
 
         for (int i = 0; i < 50; i++)
         {
-            float angle = i * 7.2f * Mathf.Deg2Rad;
-            float radius = Random.Range(2f, 5f);
+            float angle = i * (360f / 50f) * Mathf.Deg2Rad;
+            float radius = 6f;
 
             Vector3 pos = player.position + new Vector3(
                 Mathf.Cos(angle) * radius,
@@ -115,7 +117,8 @@ public class Spawner : MonoBehaviour
             );
 
             Instantiate(
-                blueCoinPrefab, pos,
+                blueCoinPrefab,
+                pos,
                 Quaternion.Euler(90f, 0f, 0f),
                 transform
             );
